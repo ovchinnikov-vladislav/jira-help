@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  jira:
+    container_name: jira
+    image: atlassian/jira-software:8.10.0-ubuntu-jdk11
+    environment:
+    # - 'JVM_MINIMUM_MEMORY=2048m'
+    # - 'JVM_MAXIMUM_MEMORY=4096m'
+
+    # параметры для настройки SSL
+     - 'ATL_PROXY_NAME=jira.ovsoft.work'
+     - 'ATL_PROXY_PORT=443'
+     - 'ATL_TOMCAT_SCHEME=https'
+     - 'ATL_TOMCAT_SECURE=true'
+     - 'HACK_JIRA=-javaagent:/opt/atlassian/jira/atlassian-agent.jar'
+    volumes:
+     - ./jira-data/:/var/atlassian/application-data/jira/
+     - ./jira-settings/atlassian-agent.jar:/opt/atlassian/jira/atlassian-agent.jar
+     - ./jira-settings/setenv.sh:/opt/atlassian/jira/bin/setenv.sh
+    ports:
+     - '32456:8080'
+    networks:
+     - default
+
+# В обход сети OpenVPN
+networks:
+  default:
+    external:
+      name: docker_network
