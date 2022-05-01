@@ -5,8 +5,8 @@ services:
     container_name: jira
     image: atlassian/jira-software:8.10.0-ubuntu-jdk11
     environment:
-    # - 'JVM_MINIMUM_MEMORY=2048m'
-    # - 'JVM_MAXIMUM_MEMORY=4096m'
+     - 'JVM_MINIMUM_MEMORY=1248m'
+     - 'JVM_MAXIMUM_MEMORY=1512m'
 
     # параметры для настройки SSL
      - 'ATL_PROXY_NAME=jira.ovsoft.work'
@@ -22,6 +22,10 @@ services:
      - '32456:8080'
     networks:
      - default
+    deploy:
+      resources:
+        limits:
+          memory: 1512M
 
 # В обход сети OpenVPN
 networks:
